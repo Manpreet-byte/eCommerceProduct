@@ -1,0 +1,223 @@
+{
+  "info": {
+    "name": "E-commerce Product Catalog API",
+    "_postman_id": "f3d8b3e9-c928-4ed1-b9f0-b0e3f01c7db1",
+    "description": "Postman collection for testing the E-commerce Product Catalog API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/register"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 or 400 (already exists)', function () {",
+                  "  pm.expect([201, 400]).to.include(pm.response.code);",
+                  "});",
+                  "if (pm.response.code === 201) {",
+                  "  const jsonData = pm.response.json();",
+                  "  if (jsonData && jsonData.token) pm.environment.set('token', jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.token) pm.environment.set('token', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products"
+          },
+          "response": []
+        },
+        {
+          "name": "List Products (Keyword)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products?keyword={{keyword}}"
+          },
+          "response": []
+        },
+        {
+          "name": "List Products (Category)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products?category={{category}}"
+          },
+          "response": []
+        },
+        {
+          "name": "List Products (Price Range)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products?minPrice={{minPrice}}&maxPrice={{maxPrice}}"
+          },
+          "response": []
+        },
+        {
+          "name": "List Products (Sort)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products?sort={{sort}}"
+          },
+          "response": []
+        },
+        {
+          "name": "List Products (Pagination)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products?page={{page}}&limit={{limit}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gaming Laptop\",\n  \"price\": 1299.99,\n  \"description\": \"High-performance laptop\",\n  \"category\": \"{{category}}\",\n  \"stock\": 20\n}"
+            },
+            "url": "{{baseUrl}}/api/products"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "const jsonData = pm.response.json();",
+                  "const id = jsonData && jsonData.product && (jsonData.product._id || jsonData.product.id);",
+                  "if (id) pm.environment.set('productId', id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/{{productId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 1199.99,\n  \"stock\": 15\n}"
+            },
+            "url": "{{baseUrl}}/api/products/{{productId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/products/{{productId}}"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

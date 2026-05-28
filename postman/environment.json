@@ -1,0 +1,81 @@
+{
+  "id": "e9d06ed2-0ac6-4ba5-a9e4-a41b15da6a15",
+  "name": "E-commerce Product Catalog (Local)",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "email",
+      "value": "test@example.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "password",
+      "value": "password123",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "keyword",
+      "value": "laptop",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "category",
+      "value": "Electronics",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "minPrice",
+      "value": "100",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "maxPrice",
+      "value": "2000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "sort",
+      "value": "-price",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "page",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "limit",
+      "value": "10",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2026-05-26T00:00:00.000Z",
+  "_postman_exported_using": "Codex CLI"
+}
