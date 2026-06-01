@@ -18,14 +18,13 @@ const productRoutes = require('./routes/productRoutes');
 
 // Initialize express app
 const app = express();
+const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
 
 // Connect to MongoDB
-if (!process.env.MONGODB_URI || !process.env.JWT_SECRET) {
-  console.error('Missing required environment variables: MONGODB_URI and JWT_SECRET');
+if (!mongoUri || !process.env.JWT_SECRET) {
+  console.error('Missing required environment variables: MONGODB_URI or MONGO_URI and JWT_SECRET');
   process.exit(1);
 }
-
-connectDB();
 
 // Middleware
 app.use(cors()); // Enable CORS
@@ -68,6 +67,13 @@ app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+const startServer = async () => {
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+};
+
+startServer();
