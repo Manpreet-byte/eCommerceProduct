@@ -35,6 +35,14 @@ app.use(logger); // Log all requests
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/products', productRoutes); // Product routes
 
+// Root route for deployment checks and quick manual verification
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Ecommerce Product Catalog API is running',
+  });
+});
+
 // Health check route
 app.get('/api/health', (req, res) => {
   res.status(200).json({
